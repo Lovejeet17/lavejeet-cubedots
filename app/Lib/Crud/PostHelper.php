@@ -3,15 +3,24 @@
 namespace App\Lib\Crud;
 
 use App\Models\Post;
+use App\Models\Tag;
 use Image;
 
 class PostHelper
 {
-    public static function getAllPosts() : object
+    public static function getAllPosts($tagId = null) : object
     {
         try{
             
-            $posts = Post::paginate(6);
+            if($tagId === null) {
+                $posts = Post::paginate(6);
+            } else {
+                $posts = Tag::where('tags.id', $tagId)
+                ->leftJoin('post_tag', 'tags.id', '=', 'post_tag.tag_id')
+                ->leftJoin('posts', 'post_tag.post_id', '=', 'posts.id')
+                ->limit(6)
+                ->get(['posts.id', 'posts.user_id', 'posts.title', 'posts.description', 'posts.featured_image']);
+            }
 
             return $posts;
 
@@ -69,6 +78,17 @@ class PostHelper
                 ]
             );
 
+            if(!empty($input['tags'])) {
+
+                $tags = explode(',', $input['tags']);
+
+                $tagIds = self::storeTags($tags);
+
+                $post->tags()->sync($tagIds);
+            } else {
+                $post->tags()->sync([]);
+            }
+
             return $post;
 
         } catch (\Exception $e) {
@@ -81,6 +101,39 @@ class PostHelper
         try{
 
             return Post::where('slug', $slug)->delete();
+
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+    public static function storeTags($tags = []) : array
+    {
+        try{
+            
+            $tagIds = [];
+
+            foreach($tags as $tag) {
+                $tagRes = Tag::updateOrCreate([
+                    'name' => $tag
+                ]);
+                array_push($tagIds, $tagRes->id);
+            }
+
+            return $tagIds;
+
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+    public static function getAllTags() : object
+    {
+        try{
+            
+            $tags = Tag::all();
+
+            return $tags;
 
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());

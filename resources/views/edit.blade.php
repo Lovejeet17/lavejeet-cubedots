@@ -27,6 +27,12 @@
             </div>
 
             <div class="form-group">
+                <label for="title">Title</label>
+                <p>Enter comma saperated tags for use more than one</p>
+                <input type="text" class="form-control" name="tags" value="@isset($post->title){{ $post->title }}@endisset"/>
+            </div>
+
+            <div class="form-group">
                 @if ($post->featured_image)
                 <img class="media-object" src="{{ '/storage/thumbnails/'.$post->featured_image }}">
                 @endif

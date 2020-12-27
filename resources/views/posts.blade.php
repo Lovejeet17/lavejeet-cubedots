@@ -3,6 +3,14 @@
 @section('content')
 
     <h4>All Posts</h4>
+
+    <div class="well">
+        <h6>Choose Any Tag For Fliter Posts</h6>
+        @foreach ($tags as $tag)
+        <a href="{{ $tag->id }}"><span class="label label-default">{{ $tag->name }}</span></a>
+        @endforeach
+    </div>
+
     @foreach ($posts as $post)
     <div class="well">
         <div class="media">

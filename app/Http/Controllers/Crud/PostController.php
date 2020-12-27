@@ -22,13 +22,16 @@ class PostController extends Controller
     /**
      * list of all posts
      */
-    public function show()
+    public function show($tagId = null)
     {
         try
         {
 
-            $posts = PostHelper::getAllPosts();
-            return view('posts', compact('posts'));
+            $posts = PostHelper::getAllPosts($tagId);
+
+            $tags = PostHelper::getAllTags();
+
+            return view('posts', compact('posts'), compact('tags'));
 
         } catch (\Exeption $e) {
             \Log::error($e->getMessage(). " ~ " . $e->getFile() . " ~ " . $e->getLine());
