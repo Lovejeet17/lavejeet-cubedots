@@ -21,11 +21,16 @@ class UserSeeder extends Seeder
         $users = $this->getUsersData();
 
         foreach($users as $user) {
-            $user = User::create([
-                'email' =>  $user['email'],
+            $user = User::updateOrCreate(
+                [
+                'email' =>  $user['email']
+                ],
+                [
                 'name'  => $user['name'],
-                'password'  => $user['password']
-            ]);
+                'password'  => $user['password'],
+                'role_id' => $user['role_id']
+                ]
+            );
         }
     }
 
@@ -35,17 +40,20 @@ class UserSeeder extends Seeder
             [
                 'name'  => 'super admin',
                 'email' => 'admin@gmail.com',
-                'password'  => Hash::make('admin123')
+                'password'  => Hash::make('admin123'),
+                'role_id' => 1
             ],
             [
                 'name'  => 'editor',
                 'email' => 'editor@gmail.com',
-                'password'  => Hash::make('editor123')
+                'password'  => Hash::make('editor123'),
+                'role_id' => 2
             ],
             [
                 'name'  => 'reader',
                 'email' => 'reader@gmail.com',
-                'password'  => Hash::make('reader123')
+                'password'  => Hash::make('reader123'),
+                'role_id' => 3
             ]
         ];
     }

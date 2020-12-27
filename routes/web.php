@@ -23,9 +23,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::get('/posts/{tagId?}', [PostController::class, 'show']);
-Route::get('/post', [PostController::class, 'create']);
-Route::get('/post/{slug}', [PostController::class, 'edit']);
+Route::get('/post', [PostController::class, 'create'])->middleware('CheckPermission');
+Route::get('/post/{slug}', [PostController::class, 'edit'])->middleware('CheckPermission');
 Route::post('/store', [PostController::class, 'store']);
-Route::delete('/delete/{slug}', [PostController::class, 'delete']);
+Route::delete('/delete/{slug}', [PostController::class, 'delete'])->middleware('CheckPermission');
 
 require __DIR__.'/auth.php';
