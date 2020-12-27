@@ -3,6 +3,8 @@
 @section('content')
 
     <h4>All Posts</h4>
+    
+    <a class="btn btn-primary" href="{{ URL::to('/post') }}" role="button">Create New post</a>
 
     <div class="well">
         <h6>Choose Any Tag For Fliter Posts</h6>

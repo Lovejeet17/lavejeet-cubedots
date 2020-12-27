@@ -33,7 +33,7 @@
             </div>
 
             <div class="form-group">
-                @if ($post->featured_image)
+                @if (!empty($post->featured_image))
                 <img class="media-object" src="{{ '/storage/thumbnails/'.$post->featured_image }}">
                 @endif
                 <label for="featured_image">Upload Featured Image</label>
