@@ -18,8 +18,8 @@ class PostHelper
                 $posts = Tag::where('tags.id', $tagId)
                 ->leftJoin('post_tag', 'tags.id', '=', 'post_tag.tag_id')
                 ->leftJoin('posts', 'post_tag.post_id', '=', 'posts.id')
-                ->limit(6)
-                ->get(['posts.id', 'posts.user_id', 'posts.title', 'posts.description', 'posts.featured_image']);
+                ->paginate(6);
+                
             }
 
             return $posts;

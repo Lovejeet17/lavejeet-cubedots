@@ -29,7 +29,7 @@
             <div class="form-group">
                 <label for="title">Title</label>
                 <p>Enter comma saperated tags for use more than one</p>
-                <input type="text" class="form-control" name="tags" value="@isset($post->title){{ $post->title }}@endisset"/>
+                <input type="text" class="form-control" name="tags"/>
             </div>
 
             <div class="form-group">

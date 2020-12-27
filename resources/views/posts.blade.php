@@ -38,4 +38,8 @@
         </div>
     </div>
     @endforeach
+
+    <div class="well">
+        {{ $posts->links() }}
+    </div>
 @endsection
