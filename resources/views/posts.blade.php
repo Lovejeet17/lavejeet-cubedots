@@ -6,8 +6,10 @@
     @foreach ($posts as $post)
     <div class="well">
         <div class="media">
-            <a class="pull-left" href="#">
-              <img class="media-object" src="{{ $post->featured_image }}">
+            <a class="pull-left" href="">
+                @if ($post->featured_image)
+                <img class="media-object" src="{{ '/storage/thumbnails/'.$post->featured_image }}">
+                @endif
             </a>
             <div class="media-body">
               <h4 class="media-heading">{{ $post->title }}</h4>

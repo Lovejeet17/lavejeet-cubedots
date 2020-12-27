@@ -11,7 +11,7 @@
             <h1>Edit post</h1>
         @endif
         
-        <form action="{{ URL::to('/store') }}" method="POST">
+        <form action="{{ URL::to('/store') }}" method="POST" enctype="multipart/form-data">
 
             @csrf
             
@@ -27,8 +27,11 @@
             </div>
 
             <div class="form-group">
+                @if ($post->featured_image)
+                <img class="media-object" src="{{ '/storage/thumbnails/'.$post->featured_image }}">
+                @endif
                 <label for="featured_image">Upload Featured Image</label>
-                <input type="file" class="form-control-file" name="featured_image" value="@isset($post->featured_image){{ asset('storage/images/'.$post->featured_image) }}@endisset" />
+                <input type="file" class="form-control-file" name="featured_image" />
             </div>
             
             <div class="form-group">

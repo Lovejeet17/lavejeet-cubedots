@@ -3,6 +3,7 @@
 namespace App\Lib\Crud;
 
 use App\Models\Post;
+use Image;
 
 class PostHelper
 {
@@ -41,7 +42,17 @@ class PostHelper
             if ($request->hasFile('featured_image')) {
                 $image = $request->file('featured_image');
                 $name = time().'.'.$image->getClientOriginalExtension();
+
+                $img = Image::make($image->getRealPath());
+                if (!file_exists(storage_path('app/public/thumbnails'))) {
+                    mkdir(storage_path('app/public/thumbnails'), 666, true);
+                }
+                $img->resize(100, 100, function($constraint) {
+                    $constraint->aspectRatio();
+                })->save(storage_path('app/public/thumbnails'). '/' .$name);
+
                 $image->move(storage_path('app/public/images'), $name);
+                
             } else {
                 $name = null;
             }
